@@ -33,18 +33,25 @@ const datalayer = {
   },
 
   async updateProduct (id, product) {
+    const user = await applicationUserManager.getUser()
     return fetch(`${this.serviceUrl}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(product),
       headers: new Headers({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (user ? user.access_token : '')
       })
     })
   },
 
   async deleteProduct (id) {
+    const user = await applicationUserManager.getUser()
     return fetch(`${this.serviceUrl}/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (user ? user.access_token : '')
+      })
     })
   }
 }

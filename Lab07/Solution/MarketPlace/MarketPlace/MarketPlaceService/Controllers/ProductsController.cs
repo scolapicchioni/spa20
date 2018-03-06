@@ -38,7 +38,7 @@ namespace MarketPlaceService.Controllers {
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] Product product) {
-            if (product == null) {
+            if (product == null || product.UserName != User.Identity.Name) {
                 return BadRequest();
             }
 
@@ -80,6 +80,15 @@ namespace MarketPlaceService.Controllers {
             var product = await _ProductsRepository.FindAsync(id);
             if (product == null) {
                 return NotFound();
+            }
+
+            AuthorizationResult authresult = await _authorizationService.AuthorizeAsync(User, product, "ProductOwner");
+            if (!authresult.Succeeded) {
+                if (User.Identity.IsAuthenticated) {
+                    return new ForbidResult();
+                } else {
+                    return new ChallengeResult();
+                }
             }
 
             await _ProductsRepository.RemoveAsync(id);
