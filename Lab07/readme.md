@@ -1,6 +1,6 @@
 # Security: Resource Based Authorization
 
-We did not yet protect the update and delete operations.
+We did not protect the update and delete operations, yet.
 
 What we would like to have is an application where:
 - Every product has an owner
@@ -511,6 +511,145 @@ async deleteProduct (id) {
 ```
 
 If you run the application, you should be able to update and delete a product only if the product owner is the currently logged on user.
+
+
+We have been repeating the same code on three different components. Let's refactor that by using [Mixins](https://vuejs.org/v2/guide/mixins.html).
+
+> Mixins are a flexible way to distribute reusable functionalities for Vue components. A mixin object can contain any component options. When a component uses a mixin, all options in the mixin will be “mixed” into the component’s own options.
+
+Create a new folder `src/mixins` and add a new file `UserAuth.js`.
+In this file we will create a constant `userAuth` where we will transfer the elements that we use in the `App.vue`, `HomeView.vue` and `DetailsView.vue`.
+
+```js
+import applicationUserManager from '../applicationusermanager'
+const userAuth = {
+  data () {
+    return {
+      user: {
+        name: '',
+        isAuthenticated: false
+      }
+    }
+  },
+  methods: {
+    async refreshUserInfo () {
+      const user = await applicationUserManager.getUser()
+      if (user) {
+        this.user.name = user.profile.email
+        this.user.isAuthenticated = true
+      } else {
+        this.user.name = ''
+        this.user.isAuthenticated = false
+      }
+    }
+  },
+  async created () {
+    await this.refreshUserInfo()
+  }
+}
+export default userAuth
+```
+
+Now we can import this mixin in those three components and therefore remove the duplicated pieces of code.
+
+The `<script>` section of the `App.vue` file becomes :
+
+```js
+<script>
+import applicationUserManager from './applicationusermanager'
+import userAuth from './mixins/userAuth'
+export default {
+  name: 'app',
+  mixins: [userAuth],
+  data () {
+    return {
+    }
+  },
+  watch: {
+    async '$route' (to, from) {
+      await this.refreshUserInfo()
+    }
+  },
+  methods: {
+    async login () {
+      try {
+        await applicationUserManager.login()
+      } catch (error) {
+        console.log(error)
+        this.$root.$emit('show-snackbar', { message: error })
+      }
+    },
+    async logout () {
+      try {
+        await applicationUserManager.logout()
+      } catch (error) {
+        console.log(error)
+        this.$root.$emit('show-snackbar', { message: error })
+      }
+    }
+  }
+}
+</script>
+```
+
+The `<script>` section of the `HomeView.vue` file becomes:
+
+```js
+<script>
+import datalayer from '../datalayer'
+import userAuth from '../mixins/userAuth'
+export default {
+  name: 'home-view',
+  mixins: [userAuth],
+  data () {
+    return {
+      products: []
+    }
+  },
+  methods: {
+    addProduct () {
+      this.$router.push({name: 'CreateView'})
+    }
+  },
+  async created () {
+    this.products = await datalayer.getProducts()
+  }
+}
+</script>
+```
+
+The `<script>` section of the `Details.vue` file becomes:
+
+```js
+<script>
+import datalayer from '../datalayer'
+import userAuth from '../mixins/userAuth'
+export default {
+  name: 'details-view',
+  mixins: [userAuth],
+  data () {
+    return {
+      product: {
+        id: 0,
+        name: '',
+        description: '',
+        price: 0,
+        userName: ''
+      }
+    }
+  },
+  watch: {
+    async '$route' (to, from) {
+      await this.refreshUserInfo()
+      this.product = await datalayer.getProductById(+this.$route.params.id)
+    }
+  },
+  async created () {
+    this.product = await datalayer.getProductById(+this.$route.params.id)
+  }
+}
+</script>
+```
 
 This concludes this series of tutorials on how to create a Progressive Web pplication using Vuejs, .NET Core Web API and IdentityServer.
 

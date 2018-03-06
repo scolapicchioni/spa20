@@ -19,9 +19,10 @@
 
 <script>
 import datalayer from '../datalayer'
-import applicationUserManager from '../applicationusermanager'
+import userAuth from '../mixins/userAuth'
 export default {
   name: 'details-view',
+  mixins: [userAuth],
   data () {
     return {
       product: {
@@ -30,10 +31,6 @@ export default {
         description: '',
         price: 0,
         userName: ''
-      },
-      user: {
-        name: '',
-        isAuthenticated: false
       }
     }
   },
@@ -44,20 +41,7 @@ export default {
     }
   },
   async created () {
-    await this.refreshUserInfo()
     this.product = await datalayer.getProductById(+this.$route.params.id)
-  },
-  methods: {
-    async refreshUserInfo () {
-      const user = await applicationUserManager.getUser()
-      if (user) {
-        this.user.name = user.profile.email
-        this.user.isAuthenticated = true
-      } else {
-        this.user.name = ''
-        this.user.isAuthenticated = false
-      }
-    }
   }
 }
 </script>

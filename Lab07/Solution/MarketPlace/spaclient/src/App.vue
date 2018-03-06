@@ -37,24 +37,18 @@
 
 <script>
 import applicationUserManager from './applicationusermanager'
-
+import userAuth from './mixins/userAuth'
 export default {
   name: 'app',
+  mixins: [userAuth],
   data () {
     return {
-      user: {
-        name: '',
-        isAuthenticated: false
-      }
     }
   },
   watch: {
     async '$route' (to, from) {
       await this.refreshUserInfo()
     }
-  },
-  async created () {
-    await this.refreshUserInfo()
   },
   methods: {
     async login () {
@@ -71,16 +65,6 @@ export default {
       } catch (error) {
         console.log(error)
         this.$root.$emit('show-snackbar', { message: error })
-      }
-    },
-    async refreshUserInfo () {
-      const user = await applicationUserManager.getUser()
-      if (user) {
-        this.user.name = user.profile.email
-        this.user.isAuthenticated = true
-      } else {
-        this.user.name = ''
-        this.user.isAuthenticated = false
       }
     }
   }

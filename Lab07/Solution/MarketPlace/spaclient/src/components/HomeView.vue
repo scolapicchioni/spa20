@@ -23,35 +23,21 @@
 
 <script>
 import datalayer from '../datalayer'
-import applicationUserManager from '../applicationusermanager'
+import userAuth from '../mixins/userAuth'
 export default {
   name: 'home-view',
+  mixins: [userAuth],
   data () {
     return {
-      products: [],
-      user: {
-        name: '',
-        isAuthenticated: false
-      }
+      products: []
     }
   },
   methods: {
     addProduct () {
       this.$router.push({name: 'CreateView'})
-    },
-    async refreshUserInfo () {
-      const user = await applicationUserManager.getUser()
-      if (user) {
-        this.user.name = user.profile.email
-        this.user.isAuthenticated = true
-      } else {
-        this.user.name = ''
-        this.user.isAuthenticated = false
-      }
     }
   },
   async created () {
-    await this.refreshUserInfo()
     this.products = await datalayer.getProducts()
   }
 }
