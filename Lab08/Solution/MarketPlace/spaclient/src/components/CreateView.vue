@@ -12,13 +12,13 @@
         <mdc-textfield v-model.number="product.price" label="Product Price" />
       </div>
       <div>
-        <img ref="imageToUpload"/>
-        <input type="file" ref="file" @change="onFileChanged">
+        <img ref="selectedImageElement"/>
+        <input type="file" ref="fileUploadElement" @change="onFileChanged">
         <div>
           <mdc-button @click="fileUpload"><mdc-icon icon="file_upload"></mdc-icon>file upload</mdc-button>
         </div>
         <div class="camera-modal">
-          <video ref="video" class="camera-stream"/>
+          <video ref="videoElement" class="camera-stream"/>
           <mdc-button @click="capture"><mdc-icon icon="camera"></mdc-icon>take picture</mdc-button>
         </div>
       </div>
@@ -47,8 +47,8 @@ export default {
   async mounted () {
     const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true })
     this.mediaStream = mediaStream
-    this.$refs.video.srcObject = mediaStream
-    this.$refs.video.play()
+    this.$refs.videoElement.srcObject = mediaStream
+    this.$refs.videoElement.play()
   },
   destroyed () {
     const tracks = this.mediaStream.getTracks()
@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     fileUpload () {
-      this.$refs.file.click()
+      this.$refs.fileUploadElement.click()
     },
     onFileChanged (event) {
       this.selectedFile = event.target.files[0]
@@ -70,7 +70,7 @@ export default {
     },
     updateImage () {
       const reader = new FileReader()
-      reader.onload = () => { this.$refs.imageToUpload.src = reader.result }
+      reader.onload = () => { this.$refs.selectedImageElement.src = reader.result }
       reader.readAsDataURL(this.selectedFile)
     },
     async insertProduct () {

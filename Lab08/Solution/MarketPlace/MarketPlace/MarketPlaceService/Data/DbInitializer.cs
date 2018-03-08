@@ -21,13 +21,13 @@ namespace MarketPlaceService.Data
             //using MarketPlaceService.Models;
             var products = new Product[] {
                 new Product { Name = "Product 1", Description = "First Sample Product", Price = 1234 , UserName = "alice@gmail.com",
-                    ImageFile = getFileBytes($@"{path}\Images\flower.jpg"), ImageMimeType = "image/jpeg"},
+                    ImageFile = File.ReadAllBytes($@"{path}\Images\flower.jpg"), ImageMimeType = "image/jpeg"},
                 new Product { Name = "Product 2", Description = "Lorem Ipsum", Price = 555 , UserName = "bob@gmail.com",
-                    ImageFile = getFileBytes($@"{path}\Images\orchard.jpg"), ImageMimeType = "image/jpeg"},
+                    ImageFile = File.ReadAllBytes($@"{path}\Images\orchard.jpg"), ImageMimeType = "image/jpeg"},
                 new Product { Name = "Product 3", Description = "Third Sample Product", Price = 333 , UserName = "alice@alice.com",
-                    ImageFile = getFileBytes($@"{path}\Images\path.jpg"), ImageMimeType = "image/jpeg"},
+                    ImageFile = File.ReadAllBytes($@"{path}\Images\path.jpg"), ImageMimeType = "image/jpeg"},
                 new Product { Name = "Product 4", Description = "Fourth Sample Product", Price = 44 , UserName = "alice@gmail.com",
-                    ImageFile = getFileBytes($@"{path}\Images\blackberries.jpg"), ImageMimeType = "image/jpeg"}
+                    ImageFile = File.ReadAllBytes($@"{path}\Images\blackberries.jpg"), ImageMimeType = "image/jpeg"}
             };
 
             foreach (var product in products) {
@@ -35,14 +35,6 @@ namespace MarketPlaceService.Data
             }
 
             context.SaveChanges();
-        }
-        private static byte[] getFileBytes(string path) {
-            FileStream fileOnDisk = new FileStream(path, FileMode.Open);
-            byte[] fileBytes;
-            using (BinaryReader br = new BinaryReader(fileOnDisk)) {
-                fileBytes = br.ReadBytes((int)fileOnDisk.Length);
-            }
-            return fileBytes;
         }
     }
 }

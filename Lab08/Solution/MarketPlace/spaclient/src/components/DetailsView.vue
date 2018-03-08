@@ -48,8 +48,5 @@ export default {
 </script>
 
 <style>
-.mdc-card-media  {
-  height: 50vh;
-  background-size:  100% 100%;
-}
+
 </style>
