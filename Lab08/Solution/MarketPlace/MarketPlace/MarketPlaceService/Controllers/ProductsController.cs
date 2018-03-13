@@ -44,7 +44,7 @@ namespace MarketPlaceService.Controllers {
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateAsync(/*[FromBody]*/ Product product, IFormFile file) {
+        public async Task<IActionResult> CreateAsync(Product product, IFormFile file) {
             if (product == null || product.UserName != User.Identity.Name) {
                 return BadRequest();
             }
