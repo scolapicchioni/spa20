@@ -89,17 +89,6 @@ export default {
 
 <style lang="scss">
 
-@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500');
-
-$mdc-theme-primary: #FFC107; //lime
-$mdc-theme-secondary: #CDDC39; //amber
-$mdc-theme-background: #fff; //white
-
-@import "./node_modules/@material/theme/mdc-theme";
-
 body {
   font-family: Roboto, sans-serif;
 }
