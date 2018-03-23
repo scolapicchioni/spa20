@@ -41,7 +41,5 @@ export default {
 </script>
 
 <style>
-h1 {
-  font-weight: normal;
-}
+
 </style>
