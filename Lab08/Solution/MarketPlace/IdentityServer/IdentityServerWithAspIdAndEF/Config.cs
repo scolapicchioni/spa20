@@ -38,7 +38,7 @@ namespace IdentityServerWithAspNetIdentity {
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
-                    RedirectUris =           { "http://localhost:5001/callback" },
+                    RedirectUris =           { "http://localhost:5001/#/callback#" },
                     PostLogoutRedirectUris = { "http://localhost:5001/index.html" },
                     AllowedCorsOrigins =     { "http://localhost:5001" },
 

@@ -5,18 +5,17 @@ We're going to build a simple web application where people can manage products t
 - Only authenticated users can add new products.
 - Only a product owner can edit or delete a product.
 
-We are going to build 3 projects. The FrontEnd project will be a Progressive Web Application built using Vue, while server side we are going to build two .NET Core 2.0 Web Applications using Visual Studio 2017: one will expose a REST API while the second will take care of Authentication.
+We are going to build 3 projects. The FrontEnd project will be a Progressive Web Application built using Vuejs and Material Design Components for Vue, while server side we are going to build two .NET Core 2.0 Web Applications using Visual Studio 2017: one will expose a REST API while the second will take care of Authentication.
 
 1. FrontEnd Client
    - Javascript (ECMAScript 2017)
    - HTML 5
    - CSS 3
    - Vue.js 2
-   - Material Design Lite
+   - Material Design Components for Vue
    - Open Id Connect Client
-   - Service Worker
-   - Cache API
    - Fetch API
+   - Native Camera API
 
 This project will interact with the user through a browser by dinamically constructing an HTML user interface and will talk to the server by using javascript and json.
 
@@ -56,9 +55,7 @@ This project will take care of the authentication part. It will issue tokens tha
 - Vue.js
 - Fetch API
 - WebPack
-- Service Workers
-- Cache API
-- Material Design Lite
+- Material Design Components for Vue
 - Authentication and Authorization
 - OAuth 2 and Open Id Connect
 - Identity Server 4
@@ -84,7 +81,7 @@ Please see [https://www.microsoft.com/net/download/windows](https://www.microsof
 We are going to split our projects into simple steps. Each step will focus on one task and will build on top of the previous step. We will start with simple projects that will become more and more complex along the way. For example, we will not focus on authentication and authorization at first. We will add it at a later step.
 
 This folder contains different subfolder. Each subfolder represents a phase in our project. "Start" folders are the starting points of each step. "Solution" folders are the final versions of each step, given to you just in case you want to check what your project is supposed to become at the end of each lab.
-What you have to do is to open a start folder corresponding to the lab you want to try (for example Lab01/Start in order to begin) and follow the instructions you find on the readme.md file. When you are done, feel free to compare your work with the solution provided in the Solution folder.     
+What you have to do is to open a start folder corresponding to the lab you want to try (for example `Lab01/Start` in order to begin) and follow the instructions you find on the `readme.md` file. When you are done, feel free to compare your work with the solution provided in the Solution folder.     
 
 # To START
 
@@ -92,3 +89,30 @@ What you have to do is to open a start folder corresponding to the lab you want 
 2. Navigate to the Lab01 subfolder
 3. Navigate to the Start subfolder
 4. Follow the instructions contained in the readme.md file to continue
+
+
+# If you want to see the final application
+
+## Configure and start the Identity Server Application
+
+- Open `Lab09\Solution\MarketPlace\IdentityServer\IdentityServer.sln` in Visual Studio
+- Build the project but do not start it from Visual Studio
+- Open a command prompt under the `Lab09\Solution\MarketPlace\IdentityServer` folder
+- Type `dotnet run /seed`
+- Navigate to `http://localhost:5002`
+- Click on `Register`
+- Type `alice@gmail.com` as username and `Pa$$w0rd` as password
+
+## Configure and start the REST Service
+
+- Open `Lab09\Solution\MarketPlace\Marketplace\MarketPlace.sln` in Visual Studio
+- Build the project and start it from
+
+## Configure and start the Javascript client 
+
+- Open `Lab09\Solution\MarketPlace\spaclient` in Visual Studio Code
+- Open a terminal window
+- Type `npm install`
+- Type `npm run dev`
+
+
