@@ -20,7 +20,6 @@ npm install --save vue-mdc-adapter
 Now let's import and use the Vue Components plugin. Open `main.js` and insert
 
 ```js
-import 'vue-mdc-adapter/dist/vue-mdc-adapter.css'
 import VueMDCAdapter from 'vue-mdc-adapter'
 
 Vue.use(VueMDCAdapter)
@@ -39,6 +38,10 @@ Import the reset, material icons and fonts.
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500');
+
+body {
+  font-family: Roboto, sans-serif;
+}
 
 </style>
 ```
@@ -74,10 +77,16 @@ Install Material Components SASS as a dependency.
 npm install material-components-web --save
 ```
 
-Install the theme component:
+Configure Webpack with sass-loader and make sure sass modules can be resolved. Open the `build/utils.js` file and locate the `generateLoaders` function. We need to add a configuration option to the returned object. Locate the `return` and replace the **scss** entry (not the **sass** one!) from
 
+```js
+scss: generateLoaders('sass'),
 ```
-npm install --save @material/theme
+
+to
+
+```js
+scss: generateLoaders('sass', {includePaths: ['node_modules']}),
 ```
 
 MDC Theme makes it easy to develop your brand colors. You override the default theme color through Sass variables. 
@@ -88,21 +97,50 @@ Add the sass-loader [pre-processor](https://github.com/vuejs-templates/pwa/blob/
 npm install sass-loader node-sass --save-dev
 ```
 
-Specify that your stle is using the sass syntax:
-
-```scss
-<style lang="scss" >
-</style>
-```
+Create a `src/theme.scss` file.
 
 Modify the colors of your theme and import the mdc-theme afterwards:
 
 ```scss
-$mdc-theme-primary: #FFC107; //amber
-$mdc-theme-secondary: #CDDC39; //lime
+$mdc-theme-primary: #FFC107; //lime
+$mdc-theme-secondary: #CDDC39; //amber
 $mdc-theme-background: #fff; //white
 
-@import "./node_modules/@material/theme/mdc-theme";
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500');
+
+@import "vue-mdc-adapter/dist/styles"; 
+@import "vue-mdc-adapter/components/styles.scss"; 
+```
+
+Open your `src/main.js` and add 
+
+```js
+import `./theme.scss`
+```
+
+as first line of code.
+
+Optimize your build and leverage the source distribution. To resolve the vue-mdc-adapter sources, open your `build/webpack.base.conf.js`, locate the `module.exports.resolve.alias` property and add
+
+```js
+'vue-mdc-adapter': 'vue-mdc-adapter/components'
+```
+
+then locate the `module.exports.module.rules`, find the entry whose `loader` is `babel-loader` and change the `include` property from
+
+```js
+include: [resolve('src'), resolve('test')]
+```
+
+to
+
+```js
+include: [resolve('src'), resolve('test'),
+        resolve('node_modules/@material'),
+        resolve('node_modules/vue-mdc-adapter')]
 ```
 
 Save and verify that you now have an amber header.
