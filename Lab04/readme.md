@@ -38,7 +38,7 @@ From Visual Studio, select File menu, > New > Project.
 
 Select the `ASP.NET Core Web Application (.NET Core)` project template. Name the Solution `MarketPlace`. Name the Project `MarketPlaceService` and select `OK`.
 
-In the `New ASP.NET Core Web Application (.NET Core) - MarketPlaceService` dialog, select the `Web API` template. Select `OK`. Do not select `Enable Docker Support`.
+In the `New ASP.NET Core Web Application (.NET Core) - MarketPlaceService` dialog, select the `Web Application (Model-View-Controller)` template. Select `OK`. Leave `No Authentication`. Do not select `Enable Docker Support`.
 
 ### Add a model class
 
