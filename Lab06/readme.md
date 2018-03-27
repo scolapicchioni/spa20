@@ -1,6 +1,7 @@
 # Security: Authentication and Authorization
 
 We have not implemented any security yet. In this lab we are going to setup and configure a new project that will act as an *Authentication Server*. We will then protect the **Create** operation and we will use the Authentication Server to authenticate the user and issue a *token*, then have the client gain access to the protected operation by using such token.
+The Authentication Server that we're going to use implements [OAuth 2.0 and IDConnect](https://www.oauth.com/).
 
 ## The Authentication Server
 
