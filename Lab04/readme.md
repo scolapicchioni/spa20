@@ -18,7 +18,7 @@ Here is the API that you'll create:
 
 The client submits a request and receives a response from the application. Within the application we find the controller, the model, and the data access layer. The request comes into the application's controller, and read/write operations occur between the controller and the data access layer. The model is serialized and returned to the client in the response.
 
-The client is whatever consumes the web API (browser, mobile app, and so forth). We aren't writing a client in this tutorial. We'll use Postman to test the app.
+The client is whatever consumes the web API (browser, mobile app, and so forth). We aren't writing a client in this tutorial. We'll use [Postman](https://www.getpostman.com/apps) to test the app.
 
 A model is an object that represents the data in your application. In this case, the only model is a Product item. Models are represented as simple C# classes (POCOs).
 
@@ -38,11 +38,11 @@ From Visual Studio, select File menu, > New > Project.
 
 Select the `ASP.NET Core Web Application (.NET Core)` project template. Name the Solution `MarketPlace`. Name the Project `MarketPlaceService` and select `OK`.
 
-In the New ASP.NET Core Web Application (.NET Core) - MarketPlaceService dialog, select the `Web API` template. Select `OK`. Do not select `Enable Docker Support`.
+In the `New ASP.NET Core Web Application (.NET Core) - MarketPlaceService` dialog, select the `Web API` template. Select `OK`. Do not select `Enable Docker Support`.
 
 ### Add a model class
 
-A model is an object that represents the data in your application. In this case, the only model is a Product item, whose properties are `Id` *(int), `Name` *(string)*, `Description` *(string)* and `Price` *(decimal)*.
+A model is an object that represents the data in your application. In this case, the only model is a Product item, whose properties are `Id` *(int)*, `Name` *(string)*, `Description` *(string)* and `Price` *(decimal)*.
 
 Add a folder named `Models`. In Solution Explorer, right-click the project. Select `Add` > `New Folder`. Name the folder `Models`.
 
@@ -340,7 +340,7 @@ public async Task<IActionResult> CreateAsync([FromBody] Product product) {
 }
 ```
 
-### Use Postman to send a Create request
+### Use [Postman](https://www.getpostman.com/apps) to send a Create request
 
 - Set the HTTP method to POST
 - Select the Body radio button
@@ -387,7 +387,7 @@ public async Task<IActionResult> UpdateAsync(int id, [FromBody] Product product)
 }
 ```
 
-You can use POSTMAN to test this action.
+You can use [POSTMAN](https://www.getpostman.com/apps) to test this action.
 
 - Set the HTTP method to PUT
 - Select the Body radio button
