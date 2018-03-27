@@ -398,18 +398,6 @@ if (_context.Products.Count() == 0) {
 }
 ```
 
-Now that we have a persistent data store, we can register our Repository as a scoped service instead of singleton. Open the Startup class, locate the ConfigureServices method and replace the following code
-
-```cs
-services.AddSingleton<IProductsRepository, ProductsRepository>();
-```
-
-with this
-
-```cs
-services.AddScoped<IProductsRepository, ProductsRepository>();
-```
-
 Run the application and verify that a database is actually created and filled up with the four initial products, by opening the `SQL Server Object Explorer` in `Visual Studio` and inspecting the `MarketPlaceService` database.
 
 We did not implement any security yet. Our next lab will start with setup and configure a new project that will act as an *Authentication Server*. We will then protect the Create operation and we will use the Authentication Server to authenticate the user and have the client gain access to the protected operation.
