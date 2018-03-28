@@ -334,7 +334,7 @@ Your `applicationusermanager.js` file should look like this:
 ```js
 import { UserManager } from 'oidc-client'
 
-class ApplicationUserManager extends Oidc.UserManager {
+class ApplicationUserManager extends UserManager {
   constructor () {
     super({
       authority: 'http://localhost:5002',
