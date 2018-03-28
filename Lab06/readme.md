@@ -60,7 +60,7 @@ The last thing we need to configure is the [Javascript Client](https://identitys
 - The `ClientName` will be `MarketPlace JavaScript Client`
 - We are going to use `GrantTypes.Implicit` as `AllowedGrantTypes` 
 - We will set `AllowAccessTokensViaBrowser` to `true`
-- `RedirectUris` will be an object with one string set to `http://localhost:5001/#/callback#`
+- `RedirectUris` will be an object with one string set to `http://localhost:5001/#/callback/#`
 - `PostLogoutRedirectUris` will be an object with one string set to `http://localhost:5001/index.html`
 - `AllowedCorsOrigins` will be an object with one string set to `http://localhost:5001`
 - The `AllowedScopes` property will be an object with the following 3 values:
@@ -462,6 +462,25 @@ export default {
 
 </style>
 ```  
+
+Configure the callback route.
+
+Open the `router\index.js` file.
+
+Import `LoginCallbackView` component:
+
+```js
+import LoginCallbackView from '@/components/LoginCallbackView'
+```
+
+and a new route and bind it to the corresponding path and component:
+```js
+{
+  path: '/callback',
+  name: 'LoginCallbackView',
+  component: LoginCallbackView
+}
+```
 
 Now we need to use the `applicationUserManager` in the datalayer to:
 - get the access token
