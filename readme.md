@@ -95,24 +95,26 @@ What you have to do is to open a start folder corresponding to the lab you want 
 
 ## Configure and start the Identity Server Application
 
-- Open `Lab09\Solution\MarketPlace\IdentityServer\IdentityServer.sln` in Visual Studio
+- Open `Lab08\Solution\MarketPlace\IdentityServer\IdentityServer.sln` in Visual Studio
 - Build the project but do not start it from Visual Studio
-- Open a command prompt under the `Lab09\Solution\MarketPlace\IdentityServer` folder
+- Open a command prompt under the `Lab08\Solution\MarketPlace\IdentityServer` folder
 - Type `dotnet run /seed`
-- Navigate to `http://localhost:5002`
-- Click on `Register`
-- Type `alice@gmail.com` as username and `Pa$$w0rd` as password
+- Navigate to `http://localhost:5002` and ensure that the project is up and running
 
 ## Configure and start the REST Service
 
-- Open `Lab09\Solution\MarketPlace\Marketplace\MarketPlace.sln` in Visual Studio
-- Build the project and start it from
+- Open `Lab08\Solution\MarketPlace\Marketplace\MarketPlace.sln` in Visual Studio
+- Build the project and start it from Visual Studio
 
 ## Configure and start the Javascript client 
 
-- Open `Lab09\Solution\MarketPlace\spaclient` in Visual Studio Code
+- Open `Lab08\Solution\MarketPlace\spaclient` in Visual Studio Code
 - Open a terminal window
 - Type `npm install`
 - Type `npm run dev`
 
+## To Logon
+
+- Username: alice
+- Password: Pass123$
 
