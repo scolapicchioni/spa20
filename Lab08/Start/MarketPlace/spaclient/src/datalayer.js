@@ -14,7 +14,7 @@ const datalayer = {
 
   async insertProduct (product) {
     const user = await applicationUserManager.getUser()
-    product.userName = user.profile.email
+    product.userName = user.profile.name
     const response = await fetch(this.serviceUrl, {
       method: 'POST',
       body: JSON.stringify(product),

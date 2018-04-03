@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using IdentityServerWithAspIdAndEF;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace IdentityServerWithAspNetIdentity
+namespace IdentityServerWithAspIdAndEF
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            Console.Title = "IdentityServerWithAspNetIdentity";
+            Console.Title = "IdentityServerWithEfAndAspNetIdentity";
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
