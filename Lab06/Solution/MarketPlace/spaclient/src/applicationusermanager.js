@@ -5,9 +5,9 @@ class ApplicationUserManager extends UserManager {
     super({
       authority: 'http://localhost:5002',
       client_id: 'marketplacejs',
-      redirect_uri: 'http://localhost:5001/#/callback#',
+      redirect_uri: 'http://localhost:5001/#/callback/#',
       response_type: 'id_token token',
-      scope: 'openid email marketplaceapi',
+      scope: 'openid profile marketplaceapi',
       post_logout_redirect_uri: 'http://localhost:5001/index.html'
     })
   }

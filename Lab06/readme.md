@@ -24,7 +24,7 @@ Now that we have a project, we need to cofigure it for our own purposes.
 
 The first thing we need to configure is our [Resource](https://identityserver4.readthedocs.io/en/release/topics/resources.html)
 
-The client will only need the email, so we will configure that.
+The client will only need the name, which is included in the profile, so we will configure that.
 
 In your project, open the `Config.cs` file located in the root of your project. Find the `GetIdentityResources` method and replace its code with:
 
@@ -32,7 +32,7 @@ In your project, open the `Config.cs` file located in the root of your project. 
 public static IEnumerable<IdentityResource> GetIdentityResources() {
     return new List<IdentityResource> {
         new IdentityResources.OpenId(),
-        new IdentityResources.Email(),
+        new IdentityResources.Profile(),
     };
 }
 ```
@@ -65,14 +65,14 @@ The last thing we need to configure is the [Javascript Client](https://identitys
 - `AllowedCorsOrigins` will be an object with one string set to `http://localhost:5001`
 - The `AllowedScopes` property will be an object with the following 3 values:
     - `IdentityServerConstants.StandardScopes.OpenId`
-    - `IdentityServerConstants.StandardScopes.Email`
+    - `IdentityServerConstants.StandardScopes.Profile`
     - `"marketplaceapi"`
 
 Locate the `GetClients` method and replace its code with the following:
 
 ```cs
 public static IEnumerable<Client> GetClients() {
-    // client credentials client
+    // javascript client
     return new List<Client> {
         new Client {
             ClientId = "marketplacejs",
@@ -86,7 +86,7 @@ public static IEnumerable<Client> GetClients() {
 
             AllowedScopes = {
                 IdentityServerConstants.StandardScopes.OpenId,
-                IdentityServerConstants.StandardScopes.Email,
+                IdentityServerConstants.StandardScopes.Profile,
                 "marketplaceapi"
             }
         }
@@ -95,8 +95,6 @@ public static IEnumerable<Client> GetClients() {
 ```
 
 We also need to make sure that our IdentityServer project starts on port `5002`. We will follow the instructions provided under the [Modify Hosting Chapter](https://identityserver4.readthedocs.io/en/release/quickstarts/0_overview.html) of the overview (setting the port to 5002 instead of 5000, since the latter is already occupied by our API).
-
-You may also want to change the `ConnectionString` in the `appsettings.json` to `"DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MarketPlaceService-IdentityServer;Trusted_Connection=True;MultipleActiveResultSets=true"`. This is not strictly necessary, but your db will be easier to find in your SQL Explorer, should you want to take a look at it.
 
 This project is also configured to use Google Authentication and an online Demo Identity Server. We can remove those because we're not going to use them.
 
@@ -139,16 +137,10 @@ Run the command
 dotnet run /seed
 ```
 
-When prompted, Press `CTRL+C` to shut down, go back to Visual Studio and open the `SQL Server Object Explorer`. You should see a `MarketPlace-IdentityServer` Database.
-Feel free to explore its structure and content. You will notice the configuration tables used by IdentityServer, but no table for the IdentityDbContext. This happens because our SeedData doesn't use it.  In order to add thos tables, open the Package Manager Console in your Visual Studio environment and type
+When prompted, Press `CTRL+C` to shut down. The command just created a SQLite database. If you want to browse it from within Visual Studio, you will need a Visual Studio Extension. Open Visual Studio, select `Tools -> Extension And Updates`, select `Online` and search for `SqLite`. Select the `SQLite / SQL Server Compact Toolbox` and click on `Download`. When the download completes, close Visual Studio to start the installation. When the installation complets, go back to Visual Studio and click on `View -> Other Windows -> SQLite / SQL Compact Toolbox`, then click on the `Add SQLite / SQL Compact from current solution` button. You should see a `AspIdUsers.db` Database.
+Feel free to explore its structure and content. You will notice the configuration tables used by IdentityServer, together with the tables for the IdentityDbContext.  
 
-```
-Update-Database -Context "IdentityServerWithAspNetIdentity.Data.ApplicationDbContext"
-```
-
-If you refresh the SQL Server Object Explorer you should now see more tables. 
-
-In Visual Studio, run the application and test a user registration, by navigating to `http://localhost:5002/Account/Register` and using `alice@alice.com` as UserName and `Pa$$w0rd` as password. You should see the user correctly registered and logged on.
+In Visual Studio, run the application and test a user login, by navigating to `http://localhost:5002/Account/Login` and using `alice` or `bob` as UserName and `Pass123$` as password. You should see the user correctly logged on.
 
 ## Configuring the REST Service
 
@@ -321,7 +313,7 @@ Let's start by creating a new file `applicationusermanager.js` in your `src` fol
     - client_id: 'marketplacejs',
     - redirect_uri: 'http://localhost:5001/#/callback/#',
     - response_type: 'id_token token',
-    - scope: 'openid email marketplaceapi',
+    - scope: 'openid profile marketplaceapi',
     - post_logout_redirect_uri: 'http://localhost:5001/index.html'
 - implent an `async login` method that
     - asynchronously waits for the `signinRedirect` method
@@ -341,7 +333,7 @@ class ApplicationUserManager extends UserManager {
       client_id: 'marketplacejs',
       redirect_uri: 'http://localhost:5001/#/callback/#',
       response_type: 'id_token token',
-      scope: 'openid email marketplaceapi',
+      scope: 'openid profile marketplaceapi',
       post_logout_redirect_uri: 'http://localhost:5001/index.html'
     })
   }
@@ -521,7 +513,7 @@ async insertProduct (product) {
 }
 ```
 
-If you now use our client application to log on, you should see how you get redirected to the IdentityServer site. You should be able to log on using the username and password you registered earlier (`alice@gmail.com` and `Pa$$w0rd`) and you should briefly see the callback url and then the home page. At that point you should be able to insert a new product.
+If you now use our client application to log on, you should see how you get redirected to the IdentityServer site. You should be able to log on using the username and password you used earlier (`alice` and `Pass123$`) and you should briefly see the callback url and then the home page. At that point you should be able to insert a new product.
 
 To complete our lab, we're going to give some feedback to the user by 
 - Showing the user name if the user is logged on
@@ -535,7 +527,7 @@ We will also update the drawer.
 The `Add Product` drawer item will be shown only if the user is authenticated.
 After that we will add a divider and then either a login or a logout item. 
 
-In order to do that, we will have to update the `data` function to return a `user` object  with a `name` and a `isAuthenticated` property. We will update this object during creation and at every change in route by invoking the `getUser` method of our `applicationUserManager` object, testing for a result and reading the `profile.email` property of the return value.
+In order to do that, we will have to update the `data` function to return a `user` object  with a `name` and a `isAuthenticated` property. We will update this object during creation and at every change in route by invoking the `getUser` method of our `applicationUserManager` object, testing for a result and reading the `profile.name` property of the return value.
 
 The `<script>` section of our `App.vue` will become:
 
@@ -581,7 +573,7 @@ export default {
     async refreshUserInfo () {
       const user = await applicationUserManager.getUser()
       if (user) {
-        this.user.name = user.profile.email
+        this.user.name = user.profile.name
         this.user.isAuthenticated = true
       } else {
         this.user.name = ''
