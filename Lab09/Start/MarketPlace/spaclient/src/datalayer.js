@@ -14,7 +14,7 @@ const datalayer = {
 
   async insertProduct (product, file) {
     const user = await applicationUserManager.getUser()
-    product.userName = user.profile.email
+    product.userName = user.profile.name
     const data = new FormData()
     data.append('file', file)
     for (const key in product) {
