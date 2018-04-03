@@ -76,7 +76,7 @@ export default {
     async refreshUserInfo () {
       const user = await applicationUserManager.getUser()
       if (user) {
-        this.user.name = user.profile.email
+        this.user.name = user.profile.name
         this.user.isAuthenticated = true
       } else {
         this.user.name = ''
