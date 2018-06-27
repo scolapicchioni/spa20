@@ -112,7 +112,7 @@ $mdc-theme-background: #fff; //white
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500');
 
 @import "vue-mdc-adapter/dist/styles"; 
-@import "vue-mdc-adapter/components/styles.scss"; 
+@import "vue-mdc-adapter/dist/styles.scss"; 
 ```
 
 Open your `src/main.js` and add 
@@ -126,7 +126,7 @@ as first line of code.
 Optimize your build and leverage the source distribution. To resolve the vue-mdc-adapter sources, open your `build/webpack.base.conf.js`, locate the `module.exports.resolve.alias` property and add
 
 ```js
-'vue-mdc-adapter': 'vue-mdc-adapter/components'
+'vue-mdc-adapter': 'vue-mdc-adapter/dist'
 ```
 
 then locate the `module.exports.module.rules`, find the entry whose `loader` is `babel-loader` and change the `include` property from
