@@ -1,3 +1,5 @@
+# NOTE: THIS REPO IS OUTDATED. THE NEW VERSION USES VUE CLI 3.11 AND .NET CORE 3.0. REFER TO THE NEW REPO FOR THE NEW STEPS. https://github.com/scolapicchioni/spa30
+
 # The Vue FrontEnd: A Progressive Web Application
 
 We will start by building the client side application using Vue.js.
