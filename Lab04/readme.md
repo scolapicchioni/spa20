@@ -1,3 +1,5 @@
+# NOTE: THIS REPO IS OUTDATED. THE NEW VERSION USES VUE CLI 3.11 AND .NET CORE 3.0. REFER TO THE NEW REPO FOR THE NEW STEPS. https://github.com/scolapicchioni/spa30
+
 # Backend: Web API with ASP.NET Core and Visual Studio for Windows
 
 In this lab we're going to build a REST service using ASP.NET Core Web API.
