@@ -1,3 +1,4 @@
+# NOTE: THIS REPO IS OUTDATED. THE NEW VERSION USES VUE CLI 3.11 AND .NET CORE 3.0. REFER TO THE NEW REPO FOR THE NEW STEPS. https://github.com/scolapicchioni/spa30
 # FrontEnd: Styling the views with the View Adapter for the Material Design Components
 
 There are many different [CSS frameworks](https://onaircode.com/top-css-frameworks-web-designer/) around.
